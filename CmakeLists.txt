@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(LeetCode
         126_140/126.cpp
-        126_140/128.cpp)
+        126_140/128.cpp
+        126_140/129.cpp)
