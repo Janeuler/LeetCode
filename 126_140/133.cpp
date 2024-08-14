@@ -40,7 +40,7 @@ public:
             q.pop();
             for (auto &x: currentNode->neighbors) {
                 if (m.find(x) == m.end()) {
-                    // create this elment, then connect relationship with the neighboring Node.
+                    // create this element, then connect relationship with the neighboring Node.
                     m[x] = new Node(x->val);
                     q.push(x);
                 }
