@@ -58,7 +58,7 @@ public:
 class Solution {
 public:
     std::vector<std::string> wordBreak(std::string s, std::vector<std::string> &wordDict) {
-        // insert wordDict first,then seach all combination bypass backtrack
+        // insert wordDict first,then search all combination bypass backtrack
         Trie root;
         for (auto &x: wordDict) {
             root.insert(x);
