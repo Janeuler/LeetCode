@@ -1,6 +1,6 @@
 //
 // Created by janeuler on 2024/8/14.
-// 使用异或运算，a xor b xor b = a，a = 0
+// 使用异或运算，a xor b xor b = a(a = 0)
 //
 # include <vector>
 
