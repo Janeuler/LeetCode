@@ -1,18 +1,17 @@
 //
 // Created by janeuler on 2024/8/16.
 //
-#include <vector>
-#include <string>
-
-using namespace std;
+# include <string>
+# include <vector>
 
 class TrieNode {
 public:
-    bool isWord;
     TrieNode *children[26];
 
+    bool isWord;
+
     TrieNode() : isWord(false) {
-        for (int i = 0; i < 26; ++i) {
+        for (int i = 0; i < 26; i++) {
             children[i] = nullptr;
         }
     }
@@ -26,70 +25,72 @@ public:
         root = new TrieNode();
     }
 
-    void insert(string word) {
+    ~Trie() {
+        delete root;
+    }
+
+    void insert(std::string &word) {
         TrieNode *node = root;
-        for (char c: word) {
-            int index = c - 'a';
-            if (node->children[index] == nullptr) {
+        for (auto x: word) {
+            int index = x - 'a';
+            if (node->children[index] == nullptr)
                 node->children[index] = new TrieNode();
-            }
             node = node->children[index];
         }
         node->isWord = true;
     }
 
-    bool searchWord(string word) {
+    bool search(std::string &target) {
         TrieNode *node = root;
-        for (char c: word) {
-            int index = c - 'a';
+
+        for (auto x: target) {
+            int index = x - 'a';
             if (node->children[index] == nullptr) {
                 return false;
             }
             node = node->children[index];
         }
+
         return node->isWord;
     }
 };
 
 class Solution {
 public:
-    vector<string> wordBreak(string s, vector<string> &wordDict) {
-        // 构建字典树
-        Trie trie;
-        for (const string &word: wordDict) {
-            trie.insert(word);
+    std::vector<std::string> wordBreak(std::string s, std::vector<std::string> &wordDict) {
+        // insert wordDict first,then seach all combination bypass backtrack
+        Trie root;
+        for (auto &x: wordDict) {
+            root.insert(x);
         }
 
-        vector<string> result;
-        vector<string> path;
-        backtrack(0, s, path, result, trie);
-        return result;
+        std::vector<std::string> ans;
+        std::vector<std::string> part;
+        backtrack(ans, 0, part, s, root);
+        return ans;
     }
 
 private:
-    // 回溯函数
-    void backtrack(int index, string &s, vector<string> &path, vector<string> &result, Trie &trie) {
+    void backtrack(std::vector<std::string> &ans, int index, std::vector<std::string> &part, std::string &s,
+                   Trie &root) {
         if (index == s.size()) {
-            // 结束条件：已经处理完整个字符串
-            string sentence = "";
-            for (int i = 0; i < path.size(); ++i) {
-                sentence += path[i];
-                if (i < path.size() - 1) {
+            std::string sentence = "";
+            for (int i = 0; i < part.size(); i++) {
+                sentence += part[i];
+                if (i != part.size() - 1) {
                     sentence += " ";
                 }
             }
-            result.push_back(sentence);
+            ans.push_back(sentence);
             return;
         }
 
-        // 尝试匹配 wordDict 中的单词
-        for (int i = index; i < s.size(); ++i) {
-            string prefix = s.substr(index, i - index + 1);
-            if (trie.searchWord(prefix)) {
-                // 找到一个匹配的单词
-                path.push_back(prefix);
-                backtrack(i + 1, s, path, result, trie);
-                path.pop_back(); // 回溯
+        for (int i = index; i < s.size(); i++) {
+            std::string temp = s.substr(index, i - index + 1);
+            if (root.search(temp)) {
+                part.push_back(temp);
+                backtrack(ans, i + 1, part, s, root);
+                part.pop_back();
             }
         }
     }
