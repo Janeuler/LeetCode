@@ -11,7 +11,7 @@ public:
         while (l < r) {
             int privo = l + (r - l) / 2;
             if (nums[privo] < nums[r]) {
-                r = privo; // 如果nums[privo] == min(nums)，则不应该-1，因此应该设置为r = privo;
+                r = privo; // 需要考虑如下情况：可能存在nums[privo] == min(nums)，此时不应该-1，因此应该设置为r = privo;
             } else {
                 l = privo + 1;
             }
