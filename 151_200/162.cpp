@@ -17,6 +17,6 @@ public:
             else
                 r = mid;
         }
-        return nums[mid]
+        return l;
     }
 };
