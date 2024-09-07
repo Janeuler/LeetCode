@@ -18,7 +18,7 @@ public:
         dp[m][n - 1] = 1;
         for (int i = m - 1; i >= 0; i--)
         {
-            for (int j = n - 1; j >= 0; j--)
+            for (int j = n - 1; j >= 0; j--) 
             {
                 int need = std::min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j];
                 dp[i][j] = need > 0 ? need : 1;
